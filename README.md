@@ -47,3 +47,8 @@ If you're looking to contribute to Gradle or provide a patch/pull request, you c
 
 This project adheres to the [Gradle Code of Conduct](https://gradle.org/conduct/). By participating, you are expected to uphold this code.
 
+
+```bash
+./gradlew :distributions-full:allDistributionZip -DsocksProxyHost=127.0.0.1 -DsocksProxyPort=1089
+```
+
