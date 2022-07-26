@@ -54,11 +54,13 @@ public class RunBuildAction implements Runnable {
     @Override
     public void run() {
         try {
+            System.out.printf("start executer: %s%n", executer.getClass().getName());
             BuildActionResult result = executer.execute(
                 new ExecuteBuildAction(startParameter),
                 buildActionParameters,
                 new DefaultBuildRequestContext(new DefaultBuildRequestMetaData(clientMetaData, startTime, sharedServices.get(ConsoleDetector.class).isConsoleInput()), new DefaultBuildCancellationToken(), new NoOpBuildEventConsumer())
             );
+            System.out.printf("end executer: %s%n", executer.getClass().getName());
             if (result.hasFailure()) {
                 // Don't need to unpack the serialized failure. It will already have been reported and is not used by anything downstream of this action.
                 throw new ReportedException();

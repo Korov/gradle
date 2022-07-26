@@ -208,6 +208,7 @@ public class DefaultCommandLineActionFactory implements CommandLineActionFactory
             sb.append("%nOS:           ");
             sb.append(OperatingSystem.current());
             sb.append("%n");
+            sb.append(String.format("author: zhu.lei%n"));
 
             System.out.println(String.format(sb.toString()));
         }
@@ -252,7 +253,9 @@ public class DefaultCommandLineActionFactory implements CommandLineActionFactory
                 action = new CommandLineParseFailureAction(parser, e);
             }
 
+            System.out.printf("start parse and build action: %s%n", action.getClass().getName());
             action.execute(executionListener);
+            System.out.printf("end parse and build action: %s%n", action.getClass().getName());
         }
 
         private void configureCreators() {
@@ -308,6 +311,7 @@ public class DefaultCommandLineActionFactory implements CommandLineActionFactory
 
         @Override
         public void execute(ExecutionListener executionListener) {
+            System.out.printf("start execute%n");
             BuildOptionBackedConverter<WelcomeMessageConfiguration> welcomeMessageConverter = new BuildOptionBackedConverter<>(new WelcomeMessageBuildOptions());
             BuildOptionBackedConverter<LoggingConfiguration> loggingBuildOptions = new BuildOptionBackedConverter<>(new LoggingConfigurationBuildOptions());
             InitialPropertiesConverter propertiesConverter = new InitialPropertiesConverter();
@@ -354,6 +358,7 @@ public class DefaultCommandLineActionFactory implements CommandLineActionFactory
                         new NativeServicesInitializingAction(buildLayout, loggingConfiguration, loggingManager,
                             new WelcomeMessageAction(buildLayout, welcomeMessageConfiguration,
                                 new DebugLoggerWarningAction(loggingConfiguration, action))));
+                System.out.printf("action:%s%n", exceptionReportingAction.getClass().getName());
                 exceptionReportingAction.execute(executionListener);
             } finally {
                 loggingManager.stop();

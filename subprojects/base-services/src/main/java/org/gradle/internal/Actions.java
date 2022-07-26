@@ -207,7 +207,9 @@ public abstract class Actions {
 
         @Override
         public void execute(T t) {
+            System.out.printf("start runnable: %s%n", runnable.getClass().getName());
             runnable.run();
+            System.out.printf("end runnable: %s%n", runnable.getClass().getName());
         }
 
         @Override

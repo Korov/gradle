@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#
+# author zhu.lei
 # Copyright © 2015-2021 the original authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -274,5 +274,10 @@ eval "set -- \$(
         sed ' s~[^-[:alnum:]+,./:=@_]~\\\\&~g; ' |
         tr '\\n' ' '
     )" '"\$@"'
+
+echo "start"
+echo "\$JAVACMD"
+echo "\$@"
+echo "end"
 
 exec "\$JAVACMD" "\$@"

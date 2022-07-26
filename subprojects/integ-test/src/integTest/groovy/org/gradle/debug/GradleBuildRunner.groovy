@@ -24,7 +24,7 @@ import org.gradle.launcher.Main
 class GradleBuildRunner {
     public static void main(String[] args) {
         //simplest example:
-        Main.main("-v")
+        Main.main("--version")
 
         //To run/debug any build from the IDE you can tweak the parameters:
         //org.gradle.launcher.Main.main("-p", "/path/to/project/you/want/to/build", "someTask", "someOtherTask");

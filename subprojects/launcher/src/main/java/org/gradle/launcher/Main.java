@@ -32,6 +32,7 @@ public class Main extends EntryPoint {
 
     @Override
     protected void doAction(String[] args, ExecutionListener listener) {
+        System.out.printf("main args:%s, listen:%s%n", Arrays.toString(args), listener.getClass().getName());
         createActionFactory().convert(Arrays.asList(args)).execute(listener);
     }
 
