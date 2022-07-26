@@ -93,7 +93,9 @@ class WelcomeMessageAction implements Action<ExecutionListener> {
                 writeMarkerFile(markerFile);
             }
         }
+        System.out.printf("start welcome action: %s%n", action.getClass().getName());
         action.execute(executionListener);
+        System.out.printf("end welcome action: %s%n", action.getClass().getName());
     }
 
     /**

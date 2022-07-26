@@ -23,6 +23,7 @@ import java.lang.reflect.Method;
 public class GradleMain {
     public static void main(String[] args) throws Exception {
         String javaVersion = System.getProperty("java.specification.version");
+        System.out.printf("java version:%s%n", javaVersion);
         if (javaVersion.equals("1.6") || javaVersion.equals("1.7")) {
             String gradleVersion = GradleVersionNumberLoader.loadGradleVersionNumber();
             System.err.printf("%s %s requires Java 1.8 or later to run. You are currently using Java %s.%n", "Gradle", gradleVersion, javaVersion);

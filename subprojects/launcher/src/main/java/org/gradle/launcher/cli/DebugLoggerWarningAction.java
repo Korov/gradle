@@ -79,7 +79,9 @@ final class DebugLoggerWarningAction implements Action<ExecutionListener> {
         // Add to the top of the log file.
         logWarningIfEnabled();
         try {
+            System.out.printf("start debug action: %s%n", action.getClass().getName());
             action.execute(executionListener);
+            System.out.printf("end debug action: %s%n", action.getClass().getName());
         } finally {
             // Add again to the bottom of the log file.
             logWarningIfEnabled();

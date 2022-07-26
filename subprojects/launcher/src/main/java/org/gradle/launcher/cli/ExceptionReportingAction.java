@@ -38,7 +38,9 @@ public class ExceptionReportingAction implements Action<ExecutionListener> {
     public void execute(ExecutionListener executionListener) {
         try {
             try {
+                System.out.printf("start execute action: %s%n", action.getClass().getName());
                 action.execute(executionListener);
+                System.out.printf("end execute action: %s%n", action.getClass().getName());
             } finally {
                 loggingOutput.flush();
             }
