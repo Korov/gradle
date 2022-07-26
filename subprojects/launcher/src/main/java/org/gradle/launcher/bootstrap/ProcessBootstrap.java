@@ -27,12 +27,14 @@ import org.gradle.internal.classpath.ClassPath;
 import org.gradle.internal.installation.CurrentGradleInstallation;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 public class ProcessBootstrap {
     /**
      * Sets up the ClassLoader structure for the given class, creates an instance and invokes {@link EntryPoint#run(String[])} on it.
      */
     public static void run(String mainClassName, String[] args) {
+        System.out.printf("class name:%s, args:%s%n", mainClassName, Arrays.toString(args));
         try {
             runNoExit(mainClassName, args);
             System.exit(0);
@@ -57,6 +59,7 @@ public class ProcessBootstrap {
             Class<?> mainClass = runtimeClassLoader.loadClass(mainClassName);
             Object entryPoint = mainClass.getConstructor().newInstance();
             Method mainMethod = mainClass.getMethod("run", String[].class);
+            System.out.printf("main class:%s%n", mainClass);
             mainMethod.invoke(entryPoint, new Object[]{args});
         } finally {
             Thread.currentThread().setContextClassLoader(oldClassLoader);

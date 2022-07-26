@@ -41,6 +41,8 @@ public class NativeServicesInitializingAction implements Action<ExecutionListene
     public void execute(ExecutionListener executionListener) {
         NativeServices.initializeOnClient(buildLayout.getGradleUserHomeDir());
         loggingManager.attachProcessConsole(loggingConfiguration.getConsoleOutput());
+        System.out.printf("start another action: %s%n", action.getClass().getName());
         action.execute(executionListener);
+        System.out.printf("end another action: %s%n", action.getClass().getName());
     }
 }
