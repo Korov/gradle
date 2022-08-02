@@ -134,6 +134,7 @@ public class DaemonClient implements BuildActionExecuter<BuildActionParameters, 
      */
     @Override
     public BuildActionResult execute(BuildAction action, BuildActionParameters parameters, BuildRequestContext requestContext) {
+        System.out.printf("action class:%s, to string:%s%n", action.getClass().getName(), action.getStartParameter().toString());
         UUID buildId = idGenerator.generateId();
         List<DaemonInitialConnectException> accumulatedExceptions = Lists.newArrayList();
 
@@ -180,6 +181,7 @@ public class DaemonClient implements BuildActionExecuter<BuildActionParameters, 
         Object result;
         try {
             LOGGER.debug("Connected to daemon {}. Dispatching request {}.", connection.getDaemon(), build);
+            System.out.printf("Connected to daemon %s. Dispatching request %s.%n", connection.getDaemon(), build);
             connection.dispatch(build);
             result = connection.receive();
         } catch (StaleDaemonAddressException e) {
@@ -197,6 +199,7 @@ public class DaemonClient implements BuildActionExecuter<BuildActionParameters, 
         }
 
         LOGGER.debug("Received result {} from daemon {} (build should be starting).", result, connection.getDaemon());
+        System.out.printf("Received result %s from daemon %s (build should be starting).%n", result, connection.getDaemon());
 
         DaemonDiagnostics diagnostics = null;
         if (result instanceof BuildStarted) {
