@@ -24,10 +24,12 @@ import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
 import org.gradle.api.logging.configuration.LoggingConfiguration;
 import org.gradle.launcher.bootstrap.ExecutionListener;
+import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
 final class DebugLoggerWarningAction implements Action<ExecutionListener> {
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(DebugLoggerWarningAction.class);
 
     static final String WARNING_MESSAGE_BODY;
 
@@ -79,9 +81,9 @@ final class DebugLoggerWarningAction implements Action<ExecutionListener> {
         // Add to the top of the log file.
         logWarningIfEnabled();
         try {
-            System.out.printf("start debug action: %s%n", action.getClass().getName());
+            LOGGER.info("start debug action: {}", action.getClass().getName());
             action.execute(executionListener);
-            System.out.printf("end debug action: %s%n", action.getClass().getName());
+            LOGGER.info("end debug action: {}", action.getClass().getName());
         } finally {
             // Add again to the bottom of the log file.
             logWarningIfEnabled();

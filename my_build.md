@@ -8,3 +8,14 @@ cd project
 
 测试类
 org.gradle.debug.GradleBuildRunner
+
+开启日志
+
+| **Option**         | **Outputs Log Levels**                       |
+| ------------------ | -------------------------------------------- |
+| no logging options | LIFECYCLE and higher                         |
+| `-q` or `--quiet`  | QUIET and higher                             |
+| `-w` or `--warn`   | WARN and higher                              |
+| `-i` or `--info`   | INFO and higher                              |
+| `-d` or `--debug`  | DEBUG and higher (that is, all log messages) |
+
