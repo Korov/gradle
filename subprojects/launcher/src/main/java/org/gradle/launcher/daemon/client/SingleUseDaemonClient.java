@@ -41,6 +41,7 @@ public class SingleUseDaemonClient extends DaemonClient {
 
     public SingleUseDaemonClient(DaemonConnector connector, OutputEventListener outputEventListener, ExplainingSpec<DaemonContext> compatibilitySpec, InputStream buildStandardInput, ExecutorFactory executorFactory, IdGenerator<UUID> idGenerator, DocumentationRegistry documentationRegistry, ProcessEnvironment processEnvironment) {
         super(connector, outputEventListener, compatibilitySpec, buildStandardInput, executorFactory, idGenerator, processEnvironment);
+        LOGGER.info("connector:{}", connector.getClass().getName());
         this.documentationRegistry = documentationRegistry;
     }
 

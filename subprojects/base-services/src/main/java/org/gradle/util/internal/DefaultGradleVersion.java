@@ -20,8 +20,6 @@ package org.gradle.util.internal;
 import org.gradle.api.GradleException;
 import org.gradle.internal.UncheckedException;
 import org.gradle.util.GradleVersion;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -37,7 +35,6 @@ import static java.lang.String.format;
 import static org.gradle.internal.IoActions.uncheckedClose;
 
 public final class DefaultGradleVersion extends GradleVersion {
-    private static final Logger logger = LoggerFactory.getLogger(DefaultGradleVersion.class);
     private static final Pattern VERSION_PATTERN = Pattern.compile("((\\d+)(\\.\\d+)+)(-(\\p{Alpha}+)-(\\w+))?(-(SNAPSHOT|\\d{14}([-+]\\d{4})?))?");
     private static final int STAGE_MILESTONE = 0;
     private static final int STAGE_UNKNOWN = 1;
@@ -111,7 +108,6 @@ public final class DefaultGradleVersion extends GradleVersion {
     private DefaultGradleVersion(String version, String buildTime, String commitId) {
         this.version = version;
         this.buildTime = buildTime;
-        logger.info("version:{}, build time:{}", version, buildTime);
         Matcher matcher = VERSION_PATTERN.matcher(version);
         if (!matcher.matches()) {
             throw new IllegalArgumentException(format("'%s' is not a valid Gradle version string (examples: '1.0', '1.0-rc-1')", version));
