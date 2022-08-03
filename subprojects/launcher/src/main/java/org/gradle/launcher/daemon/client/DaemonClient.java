@@ -180,8 +180,7 @@ public class DaemonClient implements BuildActionExecuter<BuildActionParameters, 
     protected BuildActionResult executeBuild(Build build, DaemonClientConnection connection, BuildCancellationToken cancellationToken, BuildEventConsumer buildEventConsumer) throws DaemonInitialConnectException {
         Object result;
         try {
-            LOGGER.debug("Connected to daemon {}. Dispatching request {}.", connection.getDaemon(), build);
-            System.out.printf("Connected to daemon %s. Dispatching request %s.%n", connection.getDaemon(), build);
+            LOGGER.info("Connected to daemon {}. Dispatching request {}.", connection.getDaemon(), build);
             connection.dispatch(build);
             result = connection.receive();
         } catch (StaleDaemonAddressException e) {
@@ -198,8 +197,7 @@ public class DaemonClient implements BuildActionExecuter<BuildActionParameters, 
             throw new DaemonInitialConnectException("The first result from the daemon was empty. The daemon process may have died or a non-daemon process is reusing the same port.");
         }
 
-        LOGGER.debug("Received result {} from daemon {} (build should be starting).", result, connection.getDaemon());
-        System.out.printf("Received result %s from daemon %s (build should be starting).%n", result, connection.getDaemon());
+        LOGGER.info("Received result {} from daemon {} (build should be starting).", result, connection.getDaemon());
 
         DaemonDiagnostics diagnostics = null;
         if (result instanceof BuildStarted) {
@@ -207,7 +205,7 @@ public class DaemonClient implements BuildActionExecuter<BuildActionParameters, 
             result = monitorBuild(build, diagnostics, connection, cancellationToken, buildEventConsumer);
         }
 
-        LOGGER.debug("Received result {} from daemon {} (build should be done).", result, connection.getDaemon());
+        LOGGER.info("Received result {} from daemon {} (build should be done).", result, connection.getDaemon());
 
         connection.dispatch(new Finished());
 
