@@ -368,6 +368,7 @@ public class DefaultTaskExecutionGraph implements TaskExecutionGraphInternal {
 
         @Override
         public void run(BuildOperationContext context) {
+            LOGGER.info("default mark");
             graphListener.graphPopulated(taskExecutionGraph);
             context.setResult(NotifyTaskGraphWhenReadyBuildOperationType.RESULT);
         }

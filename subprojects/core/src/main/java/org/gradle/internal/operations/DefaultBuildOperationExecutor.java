@@ -28,6 +28,8 @@ import org.gradle.internal.exceptions.DefaultMultiCauseException;
 import org.gradle.internal.logging.progress.ProgressLogger;
 import org.gradle.internal.logging.progress.ProgressLoggerFactory;
 import org.gradle.internal.time.Clock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -36,6 +38,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class DefaultBuildOperationExecutor implements BuildOperationExecutor, Stoppable {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBuildOperationExecutor.class);
     private static final String LINE_SEPARATOR = SystemProperties.getInstance().getLineSeparator();
 
     private final BuildOperationRunner runner;
@@ -99,6 +102,7 @@ public class DefaultBuildOperationExecutor implements BuildOperationExecutor, St
 
     @Override
     public <O extends RunnableBuildOperation> void runAll(Action<BuildOperationQueue<O>> schedulingAction, BuildOperationConstraint buildOperationConstraint) {
+        LOGGER.info("start executeInParallel");
         executeInParallel(false, new QueueWorker<>(getCurrentBuildOperation(), RunnableBuildOperation::run), schedulingAction, buildOperationConstraint);
     }
 
