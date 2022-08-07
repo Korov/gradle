@@ -134,7 +134,7 @@ public class DaemonClient implements BuildActionExecuter<BuildActionParameters, 
      */
     @Override
     public BuildActionResult execute(BuildAction action, BuildActionParameters parameters, BuildRequestContext requestContext) {
-        System.out.printf("action class:%s, to string:%s%n", action.getClass().getName(), action.getStartParameter().toString());
+        LOGGER.info("action class:{}, to string:{}", action.getClass().getName(), action.getStartParameter().toString());
         UUID buildId = idGenerator.generateId();
         List<DaemonInitialConnectException> accumulatedExceptions = Lists.newArrayList();
 

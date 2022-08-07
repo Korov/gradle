@@ -368,9 +368,11 @@ public class DefaultTaskExecutionGraph implements TaskExecutionGraphInternal {
 
         @Override
         public void run(BuildOperationContext context) {
-            LOGGER.info("default mark");
+            long startTime = System.currentTimeMillis();
+            LOGGER.info("start default task execution, graph class:{}, all tasks:{}", taskExecutionGraph.getClass().getName(), taskExecutionGraph.getAllTasks().stream().map(Task::getActions));
             graphListener.graphPopulated(taskExecutionGraph);
             context.setResult(NotifyTaskGraphWhenReadyBuildOperationType.RESULT);
+            LOGGER.info("end default task execution cost:{}", System.currentTimeMillis() - startTime);
         }
 
         @Override
