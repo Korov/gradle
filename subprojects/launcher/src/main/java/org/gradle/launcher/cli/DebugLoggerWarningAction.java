@@ -24,6 +24,7 @@ import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
 import org.gradle.api.logging.configuration.LoggingConfiguration;
 import org.gradle.launcher.bootstrap.ExecutionListener;
+import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
