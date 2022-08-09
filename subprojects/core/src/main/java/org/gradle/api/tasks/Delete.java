@@ -49,6 +49,7 @@ public class Delete extends ConventionTask implements DeleteSpec {
 
     @TaskAction
     protected void clean() throws IOException {
+        System.out.printf("hahaha start clean");
         boolean didWork = false;
         for (File path : paths) {
             didWork |= getDeleter().deleteRecursively(path, followSymlinks);

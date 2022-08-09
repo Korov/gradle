@@ -52,6 +52,7 @@ import org.gradle.util.Path;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -369,10 +370,11 @@ public class DefaultTaskExecutionGraph implements TaskExecutionGraphInternal {
         @Override
         public void run(BuildOperationContext context) {
             long startTime = System.currentTimeMillis();
-            LOGGER.info("start default task execution, graph class:{}, all tasks:{}", taskExecutionGraph.getClass().getName(), taskExecutionGraph.getAllTasks().size());
+            LOGGER.info("start default task execution, graph class:{}, all task size:{}", taskExecutionGraph.getClass().getName(), taskExecutionGraph.getAllTasks().size());
             for (int i = 0; i < taskExecutionGraph.getAllTasks().size(); i++) {
                 Task task = taskExecutionGraph.getAllTasks().get(i);
-                LOGGER.info("task:{}, class:{}, path:{}", i, task.getClass().getName(), task.getPath());
+                LOGGER.info("task:{}, class:{}, path:{}, action size:{}", i, task.getClass().getName(), task.getPath(), task.getActions().size());
+                LOGGER.info("task properties:{}", Arrays.toString(task.getClass().getFields()));
             }
             graphListener.graphPopulated(taskExecutionGraph);
             context.setResult(NotifyTaskGraphWhenReadyBuildOperationType.RESULT);
