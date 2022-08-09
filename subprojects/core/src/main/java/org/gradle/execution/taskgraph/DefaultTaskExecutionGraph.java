@@ -374,7 +374,6 @@ public class DefaultTaskExecutionGraph implements TaskExecutionGraphInternal {
             for (int i = 0; i < taskExecutionGraph.getAllTasks().size(); i++) {
                 Task task = taskExecutionGraph.getAllTasks().get(i);
                 LOGGER.info("task:{}, class:{}, path:{}, action size:{}", i, task.getClass().getName(), task.getPath(), task.getActions().size());
-                LOGGER.info("task properties:{}", Arrays.toString(task.getClass().getFields()));
             }
             graphListener.graphPopulated(taskExecutionGraph);
             context.setResult(NotifyTaskGraphWhenReadyBuildOperationType.RESULT);
