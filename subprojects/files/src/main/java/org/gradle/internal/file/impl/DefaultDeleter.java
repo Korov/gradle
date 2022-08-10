@@ -61,6 +61,7 @@ public class DefaultDeleter implements Deleter {
 
     @Override
     public boolean deleteRecursively(File root, boolean followSymlinks) throws IOException {
+        LOGGER.info("root path:{}, follow symlinks:{}", root.getAbsolutePath(), followSymlinks);
         if (root.exists()) {
             return deleteRecursively(root, followSymlinks
                 ? Handling.FOLLOW_SYMLINKED_DIRECTORIES
@@ -106,7 +107,7 @@ public class DefaultDeleter implements Deleter {
     }
 
     private boolean deleteRecursively(File root, Handling handling) throws IOException {
-        LOGGER.debug("Deleting {}", root);
+        LOGGER.info("Deleting {}", root);
         long startTime = timeProvider.getAsLong();
         Collection<String> failedPaths = new ArrayList<String>();
         boolean attemptedToRemoveAnything = deleteRecursively(startTime, root, root, handling, failedPaths);
