@@ -22,6 +22,8 @@ import org.gradle.api.file.FileCollection;
 import org.gradle.api.internal.ConventionTask;
 import org.gradle.internal.file.Deleter;
 import org.gradle.work.DisableCachingByDefault;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import java.io.File;
@@ -43,13 +45,14 @@ import java.util.Set;
  */
 @DisableCachingByDefault(because = "Deletion cannot be cached")
 public class Delete extends ConventionTask implements DeleteSpec {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Delete.class);
     private ConfigurableFileCollection paths = getProject().getObjects().fileCollection();
 
     private boolean followSymlinks;
 
     @TaskAction
     protected void clean() throws IOException {
-        System.out.printf("hahaha start clean");
+        LOGGER.info("start delete task");
         boolean didWork = false;
         for (File path : paths) {
             didWork |= getDeleter().deleteRecursively(path, followSymlinks);
