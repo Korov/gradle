@@ -30,6 +30,8 @@ import org.gradle.initialization.internal.InternalBuildFinishedListener;
 import org.gradle.internal.Describables;
 import org.gradle.internal.model.StateTransitionController;
 import org.gradle.internal.model.StateTransitionControllerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -40,6 +42,7 @@ import java.util.function.Function;
 
 @SuppressWarnings("deprecation")
 public class DefaultBuildLifecycleController implements BuildLifecycleController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBuildLifecycleController.class);
     private enum State implements StateTransitionController.State {
         // Configuring the build, can access build model
         Configure,
@@ -72,6 +75,7 @@ public class DefaultBuildLifecycleController implements BuildLifecycleController
         BuildToolingModelControllerFactory toolingModelControllerFactory,
         StateTransitionControllerFactory controllerFactory
     ) {
+        LOGGER.info("DefaultBuildLifecycleController set gradle");
         this.gradle = gradle;
         this.modelController = buildModelController;
         this.exceptionAnalyser = exceptionAnalyser;

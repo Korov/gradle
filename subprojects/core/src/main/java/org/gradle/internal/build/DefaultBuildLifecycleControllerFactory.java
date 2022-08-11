@@ -32,10 +32,13 @@ import org.gradle.internal.model.StateTransitionControllerFactory;
 import org.gradle.internal.operations.BuildOperationProgressEventEmitter;
 import org.gradle.internal.service.scopes.BuildScopeListenerManagerAction;
 import org.gradle.internal.service.scopes.BuildScopeServices;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
 public class DefaultBuildLifecycleControllerFactory implements BuildLifecycleControllerFactory {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBuildLifecycleControllerFactory.class);
     private final StateTransitionControllerFactory stateTransitionControllerFactory;
     private final BuildToolingModelControllerFactory buildToolingModelControllerFactory;
     private final ExceptionAnalyser exceptionAnalyser;
@@ -90,6 +93,7 @@ public class DefaultBuildLifecycleControllerFactory implements BuildLifecycleCon
                 .nagUser();
         }
 
+        LOGGER.info("start build gradle");
         GradleInternal gradle = buildScopeServices.get(GradleInternal.class);
 
         BuildModelController buildModelController = buildScopeServices.get(BuildModelController.class);

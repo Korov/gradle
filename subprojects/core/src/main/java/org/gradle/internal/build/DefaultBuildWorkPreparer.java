@@ -21,10 +21,13 @@ import org.gradle.execution.plan.ExecutionPlan;
 import org.gradle.execution.plan.ExecutionPlanFactory;
 import org.gradle.execution.taskgraph.TaskExecutionGraphInternal;
 import org.gradle.internal.execution.BuildOutputCleanupRegistry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.function.Consumer;
 
 public class DefaultBuildWorkPreparer implements BuildWorkPreparer {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBuildWorkPreparer.class);
     private final ExecutionPlanFactory executionPlanFactory;
 
     public DefaultBuildWorkPreparer(ExecutionPlanFactory executionPlanFactory) {
@@ -44,6 +47,7 @@ public class DefaultBuildWorkPreparer implements BuildWorkPreparer {
 
     @Override
     public void finalizeWorkGraph(GradleInternal gradle, ExecutionPlan plan) {
+        LOGGER.info("get task graph from gradle internal");
         TaskExecutionGraphInternal taskGraph = gradle.getTaskGraph();
         plan.finalizePlan();
         taskGraph.populate(plan);
