@@ -154,6 +154,7 @@ public class DefaultDeleter implements Deleter {
     }
 
     protected boolean deleteFile(File file) {
+        LOGGER.info("DefaultDeleter delete file:{}", file.getAbsolutePath());
         return file.delete() && !file.exists();
     }
 

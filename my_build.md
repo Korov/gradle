@@ -4,7 +4,7 @@
 # 使用自己安装的gardle
 mkdir project
 cd project
-/home/korov/temp/path/gradle/bin/gradle init -Dorg.gradle.daemon=false
+/home/korov/temp/path/gradle/bin/gradle init -Dorg.gradle.daemon=false -Dorg.gradle.debug=true
 
 测试类
 org.gradle.debug.GradleBuildRunner

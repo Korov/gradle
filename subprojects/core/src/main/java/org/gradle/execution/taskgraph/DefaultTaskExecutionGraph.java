@@ -374,6 +374,7 @@ public class DefaultTaskExecutionGraph implements TaskExecutionGraphInternal {
                 Task task = taskExecutionGraph.getAllTasks().get(i);
                 LOGGER.info("task:{}, class:{}, path:{}, action size:{}", i, task.getClass().getName(), task.getPath(), task.getActions().size());
             }
+            LOGGER.info("TaskExecutionGraphListener class:{}", graphListener.getClass().getName());
             graphListener.graphPopulated(taskExecutionGraph);
             context.setResult(NotifyTaskGraphWhenReadyBuildOperationType.RESULT);
             LOGGER.info("end default task execution cost:{}", System.currentTimeMillis() - startTime);
