@@ -370,10 +370,10 @@ public class DefaultTaskExecutionGraph implements TaskExecutionGraphInternal {
         public void run(BuildOperationContext context) {
             long startTime = System.currentTimeMillis();
             LOGGER.info("start default task execution, graph class:{}, all task size:{}", taskExecutionGraph.getClass().getName(), taskExecutionGraph.getAllTasks().size());
-            for (int i = 0; i < taskExecutionGraph.getAllTasks().size(); i++) {
+            /*for (int i = 0; i < taskExecutionGraph.getAllTasks().size(); i++) {
                 Task task = taskExecutionGraph.getAllTasks().get(i);
                 LOGGER.info("task:{}, class:{}, path:{}, action size:{}", i, task.getClass().getName(), task.getPath(), task.getActions().size());
-            }
+            }*/
             LOGGER.info("TaskExecutionGraphListener class:{}", graphListener.getClass().getName());
             graphListener.graphPopulated(taskExecutionGraph);
             context.setResult(NotifyTaskGraphWhenReadyBuildOperationType.RESULT);

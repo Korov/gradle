@@ -240,6 +240,8 @@ public class DefaultExecutionPlan implements ExecutionPlan, WorkSource<Node> {
 
     @Override
     public void determineExecutionPlan() {
+        // TODO need read
+        LOGGER.info("determine execution plan");
         updateFinalizerGroups();
 
         LinkedList<NodeInVisitingSegment> nodeQueue = newLinkedList();
@@ -1109,6 +1111,7 @@ public class DefaultExecutionPlan implements ExecutionPlan, WorkSource<Node> {
             }
             if (node instanceof LocalTaskNode) {
                 LocalTaskNode taskNode = (LocalTaskNode) node;
+                LOGGER.info("execution plan add task:{}", taskNode.getTask());
                 taskMapping.put(taskNode.getTask(), taskNode);
             }
             return true;
