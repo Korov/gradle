@@ -286,6 +286,7 @@ public class DefaultExecutionPlan implements ExecutionPlan, WorkSource<Node> {
                     addFinalizerToQueue(nodeQueue, visitingSegmentCounter++, finalizer);
                 }
 
+                // 这里会把此task相关的task重新加入到nodeQueue中然后重新遍历生成对应的task list
                 for (Node successor : node.getAllSuccessorsInReverseOrder()) {
                     if (visitingNodes.containsEntry(successor, currentSegment)) {
                         if (!walkedShouldRunAfterEdges.isEmpty()) {
