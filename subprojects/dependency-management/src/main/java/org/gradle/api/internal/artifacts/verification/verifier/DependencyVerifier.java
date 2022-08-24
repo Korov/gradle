@@ -35,6 +35,8 @@ import org.gradle.internal.hash.ChecksumService;
 import org.gradle.internal.hash.HashCode;
 import org.gradle.security.internal.Fingerprint;
 import org.gradle.security.internal.PublicKeyService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -48,6 +50,7 @@ import java.util.stream.Collectors;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 
 public class DependencyVerifier {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DependencyVerifier.class);
     private final Map<String, ComponentVerificationMetadata> verificationMetadata;
     private final DependencyVerificationConfiguration config;
     private final List<String> topLevelComments;
@@ -77,6 +80,7 @@ public class DependencyVerifier {
                 if (isTrustedArtifact(foundArtifact)) {
                     return;
                 }
+                LOGGER.info("verification error with aritifact:{}, failure:{}", foundArtifact.getDisplayName(), failure.toString());
                 builder.failWith(failure);
             });
     }

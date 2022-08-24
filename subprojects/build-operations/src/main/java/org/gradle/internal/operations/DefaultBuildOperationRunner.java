@@ -62,6 +62,7 @@ public class DefaultBuildOperationRunner implements BuildOperationRunner {
                 Throwable failure = null;
                 try {
                     listener.start(descriptor, operationState);
+                    LOGGER.info("execute with descriptor:{}", descriptor.getDisplayName());
                     try {
                         worker.execute(buildOperation, context);
                     } catch (Throwable t) {

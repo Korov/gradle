@@ -110,6 +110,10 @@ public class ChecksumAndSignatureVerificationOverride implements DependencyVerif
         if (verificationQueries.add(new VerificationQuery(artifact, repositoryId))) {
             VerificationEvent event = new VerificationEvent(kind, artifact, mainFile, signatureFile, repositoryName);
             synchronized (verificationEvents) {
+                if (verificationEvents.isEmpty()) {
+                    LOGGER.info("verification error events is empty");
+                }
+                LOGGER.info("verification error events add event:{}", event.artifact.getDisplayName());
                 verificationEvents.add(event);
             }
         }
