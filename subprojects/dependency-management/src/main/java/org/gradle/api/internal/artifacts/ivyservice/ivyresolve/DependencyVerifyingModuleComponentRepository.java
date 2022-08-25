@@ -49,6 +49,8 @@ import org.gradle.internal.resolve.result.BuildableModuleComponentMetaDataResolv
 import org.gradle.internal.resolve.result.BuildableModuleVersionListingResolveResult;
 import org.gradle.internal.resolve.result.DefaultBuildableArtifactResolveResult;
 import org.gradle.internal.resolve.result.DefaultBuildableModuleComponentMetaDataResolveResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -56,6 +58,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class DependencyVerifyingModuleComponentRepository implements ModuleComponentRepository {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DependencyVerifyingModuleComponentRepository.class);
     private final ModuleComponentRepository delegate;
     private final ModuleComponentRepositoryAccess localAccess;
     private final ModuleComponentRepositoryAccess remoteAccess;
@@ -138,6 +141,7 @@ public class DependencyVerifyingModuleComponentRepository implements ModuleCompo
                                     if (artifactFile != null && artifactFile.exists()) {
                                         // it's possible that the file is null if it has been removed from the cache for example
                                         Factory<File> signatureFileFactory = () -> maybeFetchComponentMetadataSignatureFile(tmp.getMetaData().getSources(), artifact);
+                                        LOGGER.info("mark1 artifact:{}", artifact.getDisplayName());
                                         operation.onArtifact(ArtifactVerificationOperation.ArtifactKind.METADATA, artifact, artifactFile, signatureFileFactory, getName(), getId());
                                     } else {
                                         ignore.set(true);
@@ -213,6 +217,7 @@ public class DependencyVerifyingModuleComponentRepository implements ModuleCompo
                     if (!(result instanceof SignatureFileDefaultBuildableArtifactResolveResult)) {
                         // signature files are fetched using resolveArtifact, but are checked alongside the main artifact
                         Factory<File> signatureFileFactory = () -> maybeFetchArtifactSignatureFile(moduleSources, mcai, artifact.getName());
+                        LOGGER.info("mark2 artifact:{}", mcai.getDisplayName());
                         operation.onArtifact(artifactKind, mcai, result.getResult(), signatureFileFactory, getName(), getId());
                     }
                 }
