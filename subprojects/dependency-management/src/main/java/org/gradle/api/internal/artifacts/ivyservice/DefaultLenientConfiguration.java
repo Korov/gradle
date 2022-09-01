@@ -61,6 +61,8 @@ import org.gradle.internal.operations.BuildOperationDescriptor;
 import org.gradle.internal.operations.BuildOperationExecutor;
 import org.gradle.internal.operations.RunnableBuildOperation;
 import org.gradle.internal.work.WorkerLeaseService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -73,6 +75,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class DefaultLenientConfiguration implements LenientConfiguration, VisitedArtifactSet {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultLenientConfiguration.class);
 
     private final static ResolveArtifactsBuildOperationType.Result RESULT = new ResolveArtifactsBuildOperationType.Result() {
     };
@@ -144,6 +148,15 @@ public class DefaultLenientConfiguration implements LenientConfiguration, Visite
                         return;
                     }
                 }
+                List<String> names = new ArrayList<>();
+                for (int i = 0; i < Integer.MAX_VALUE; i++) {
+                    try {
+                        names.add(artifactResults.getArtifactsWithId(i).toString());
+                    } catch (Exception e) {
+                        break;
+                    }
+                }
+                LOGGER.info("artifact results:{}", names);
                 // This may be called from an unmanaged thread, so temporarily enlist the current thread as a worker if it is not already so that it can visit the results
                 // It would be better to instead to memoize the results on the first visit so that this is not required
                 workerLeaseService.runAsUnmanagedWorkerThread(() -> visitArtifactsWithBuildOperation(dependencySpec, artifactResults, fileDependencyResults, visitor));

@@ -19,3 +19,10 @@ org.gradle.debug.GradleBuildRunner
 | `-i` or `--info`   | INFO and higher                              |
 | `-d` or `--debug`  | DEBUG and higher (that is, all log messages) |
 
+# issue
+
+fail: `/home/korov/Desktop/temp/path/gradle/bin/gradle -Dorg.gradle.daemon=false -i buildOnServer > fail.log 2>&1`
+
+success: `/home/korov/Desktop/temp/path/gradle/bin/gradle -Dorg.gradle.daemon=false -i :compose:foundation:foundation-lint:jar > success.log 2>&1`
+
+debug: `/home/korov/Desktop/temp/path/gradle/bin/gradle -Dorg.gradle.daemon=false -i buildOnServer -Dorg.gradle.debug=true`

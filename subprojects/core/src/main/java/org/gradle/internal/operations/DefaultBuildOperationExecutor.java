@@ -228,6 +228,9 @@ public class DefaultBuildOperationExecutor implements BuildOperationExecutor, St
         private final BuildOperationWorker<? super O> worker;
 
         private QueueWorker(@Nullable BuildOperationState parent, BuildOperationWorker<? super O> worker) {
+            if ("Resolve files of :compose:foundation:foundation-lint:bundleInside".equals(parent.getDescription().getDisplayName())) {
+                LOGGER.info("debug");
+            }
             this.parent = parent;
             this.worker = worker;
         }

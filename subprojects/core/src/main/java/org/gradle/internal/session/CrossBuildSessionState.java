@@ -49,6 +49,8 @@ import org.gradle.internal.service.scopes.ServiceScope;
 import org.gradle.internal.time.Clock;
 import org.gradle.internal.work.DefaultWorkerLeaseService;
 import org.gradle.internal.work.WorkerLeaseService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Closeable;
 
@@ -64,6 +66,7 @@ import java.io.Closeable;
  */
 @ServiceScope(Scopes.BuildSession.class)
 public class CrossBuildSessionState implements Closeable {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CrossBuildSessionState.class);
     private final ServiceRegistry services;
 
     public CrossBuildSessionState(ServiceRegistry parent, StartParameter startParameter) {
@@ -115,6 +118,7 @@ public class CrossBuildSessionState implements Closeable {
             BuildOperationIdFactory buildOperationIdFactory,
             BuildOperationListenerManager buildOperationListenerManager
         ) {
+            LOGGER.info("build operation listener:{}", buildOperationListenerManager.getBroadcaster());
             return new DefaultBuildOperationExecutor(
                 buildOperationListenerManager.getBroadcaster(),
                 clock,
