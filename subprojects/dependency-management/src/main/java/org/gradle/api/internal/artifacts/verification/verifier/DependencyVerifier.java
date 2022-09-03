@@ -62,25 +62,32 @@ public class DependencyVerifier {
         this.topLevelComments = topLevelComments;
     }
 
-    public void verify(ChecksumService checksumService,
-                       SignatureVerificationService signatureVerificationService,
-                       ArtifactVerificationOperation.ArtifactKind kind,
-                       ModuleComponentArtifactIdentifier foundArtifact,
-                       File artifactFile,
-                       File signatureFile,
-                       ArtifactVerificationResultBuilder builder) {
+    public void verify(
+        ChecksumService checksumService,
+        SignatureVerificationService signatureVerificationService,
+        ArtifactVerificationOperation.ArtifactKind kind,
+        ModuleComponentArtifactIdentifier foundArtifact,
+        File artifactFile,
+        File signatureFile,
+        ArtifactVerificationResultBuilder builder
+    ) {
         if (shouldSkipVerification(kind)) {
             return;
+        }
+        if ("logback-classic-1.2.11.pom (ch.qos.logback:logback-classic:1.2.11)".equals(foundArtifact.getDisplayName())) {
+            LOGGER.info("verification error with aritifact:{}", foundArtifact.getDisplayName());
         }
         performVerification(foundArtifact,
             checksumService,
             signatureVerificationService,
             artifactFile,
             signatureFile, failure -> {
+                if ("logback-classic-1.2.11.pom (ch.qos.logback:logback-classic:1.2.11)".equals(foundArtifact.getDisplayName())) {
+                    LOGGER.info("verification error with aritifact:{}, failure:{}", foundArtifact.getDisplayName(), failure.toString());
+                }
                 if (isTrustedArtifact(foundArtifact)) {
                     return;
                 }
-                LOGGER.info("verification error with aritifact:{}, failure:{}", foundArtifact.getDisplayName(), failure.toString());
                 builder.failWith(failure);
             });
     }

@@ -20,6 +20,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DefaultBuildOperationRunner implements BuildOperationRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBuildOperationRunner.class);
@@ -55,14 +57,20 @@ public class DefaultBuildOperationRunner implements BuildOperationRunner {
     }
 
     @Override
-    public <O extends BuildOperation> void execute(final O buildOperation, final BuildOperationWorker<O> worker, @Nullable BuildOperationState defaultParent) {
+    public <O extends BuildOperation> void execute(final O buildOperation, final BuildOperationWorker<O> worker, @Nullable final BuildOperationState defaultParent) {
         execute(buildOperation.description(), defaultParent, new BuildOperationExecution<O>() {
             @Override
             public O execute(BuildOperationDescriptor descriptor, BuildOperationState operationState, @Nullable BuildOperationState parent, ReadableBuildOperationContext context, BuildOperationExecutionListener listener) {
                 Throwable failure = null;
                 try {
                     listener.start(descriptor, operationState);
-                    LOGGER.info("execute with descriptor:{}", descriptor.getDisplayName());
+                    Set<String> excludeName = new HashSet<String>();
+                    excludeName.add("Execute container callback action");
+                    excludeName.add("Execute Project.afterEvaluate listener");
+                    excludeName.add("Dependency verification");
+                    if (!excludeName.contains(descriptor.getDisplayName())) {
+                        LOGGER.info("execute with descriptor:{}", descriptor.getDisplayName());
+                    }
                     try {
                         worker.execute(buildOperation, context);
                     } catch (Throwable t) {

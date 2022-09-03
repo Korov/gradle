@@ -141,9 +141,9 @@ public class DependencyVerifyingModuleComponentRepository implements ModuleCompo
                                     if (artifactFile != null && artifactFile.exists()) {
                                         // it's possible that the file is null if it has been removed from the cache for example
                                         Factory<File> signatureFileFactory = () -> maybeFetchComponentMetadataSignatureFile(tmp.getMetaData().getSources(), artifact);
-                                        LOGGER.info("mark1 artifact:{}", artifact.getDisplayName());
                                         if ("logback-classic-1.2.11.pom (ch.qos.logback:logback-classic:1.2.11)".equals(artifact.getDisplayName())) {
-                                            LOGGER.info("debug");
+                                            LOGGER.info("verification error:{}", artifact.getDisplayName());
+                                            LOGGER.debug("debug mark");
                                         }
                                         operation.onArtifact(ArtifactVerificationOperation.ArtifactKind.METADATA, artifact, artifactFile, signatureFileFactory, getName(), getId());
                                     } else {
@@ -220,9 +220,9 @@ public class DependencyVerifyingModuleComponentRepository implements ModuleCompo
                     if (!(result instanceof SignatureFileDefaultBuildableArtifactResolveResult)) {
                         // signature files are fetched using resolveArtifact, but are checked alongside the main artifact
                         Factory<File> signatureFileFactory = () -> maybeFetchArtifactSignatureFile(moduleSources, mcai, artifact.getName());
-                        LOGGER.info("mark2 artifact:{}", mcai.getDisplayName());
                         if ("logback-classic-1.2.11.pom (ch.qos.logback:logback-classic:1.2.11)".equals(mcai.getDisplayName())) {
-                            LOGGER.info("debug");
+                            LOGGER.info("mark2 artifact:{}", mcai.getDisplayName());
+                            LOGGER.debug("debug mark");
                         }
                         operation.onArtifact(artifactKind, mcai, result.getResult(), signatureFileFactory, getName(), getId());
                     }

@@ -87,6 +87,9 @@ public class RepositoryChainComponentMetaDataResolver implements ComponentMetaDa
 
         List<ComponentMetaDataResolveState> resolveStates = new ArrayList<>();
         for (ModuleComponentRepository repository : repositories) {
+            if ("ch.qos.logback:logback-classic:1.2.11".equals(identifier.toString())) {
+                LOGGER.debug("debug mark");
+            }
             resolveStates.add(new ComponentMetaDataResolveState(identifier, componentOverrideMetadata, repository, versionedComponentChooser));
         }
 
@@ -134,6 +137,9 @@ public class RepositoryChainComponentMetaDataResolver implements ComponentMetaDa
         RepositoryChainModuleResolution best = null;
         while (!queue.isEmpty()) {
             ComponentMetaDataResolveState request = queue.removeFirst();
+            if ("class org.gradle.api.internal.artifacts.ivyservice.ivyresolve.ComponentMetaDataResolveState".equals(request.getClass().toString())) {
+                LOGGER.debug("debug mark");
+            }
             BuildableModuleComponentMetaDataResolveResult metaDataResolveResult;
             metaDataResolveResult = request.resolve();
             switch (metaDataResolveResult.getState()) {

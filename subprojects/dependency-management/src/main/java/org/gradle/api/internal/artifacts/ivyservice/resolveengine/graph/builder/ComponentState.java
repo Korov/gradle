@@ -45,6 +45,8 @@ import org.gradle.internal.component.model.VariantResolveMetadata;
 import org.gradle.internal.resolve.ModuleVersionResolveException;
 import org.gradle.internal.resolve.resolver.ComponentMetaDataResolver;
 import org.gradle.internal.resolve.result.DefaultBuildableComponentResolveResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -58,6 +60,7 @@ import java.util.stream.StreamSupport;
  * Resolution state for a given component
  */
 public class ComponentState implements ComponentResolutionState, DependencyGraphComponent {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ComponentState.class);
     private final ComponentIdentifier componentIdentifier;
     private final ModuleVersionIdentifier id;
     private final ComponentMetaDataResolver resolver;
@@ -85,6 +88,9 @@ public class ComponentState implements ComponentResolutionState, DependencyGraph
         this.module = module;
         this.id = id;
         this.componentIdentifier = componentIdentifier;
+        if ("ch.qos.logback:logback-classic:1.2.11".equals(componentIdentifier.toString())) {
+            LOGGER.debug("debug mark");
+        }
         this.resolver = resolver;
         this.implicitCapability = ImmutableCapability.defaultCapabilityForComponent(id);
         this.attributeDesugaring = attributeDesugaring;
@@ -420,13 +426,12 @@ public class ComponentState implements ComponentResolutionState, DependencyGraph
     }
 
     private String formatCapabilityRejectMessage(ModuleIdentifier id, Pair<Capability, Collection<NodeState>> capabilityConflict) {
-        StringBuilder sb = new StringBuilder("Module '");
-        sb.append(id).append("' has been rejected:\n");
-        sb.append("   Cannot select module with conflict on ");
         Capability capability = capabilityConflict.left;
-        sb.append("capability '").append(capability.getGroup()).append(":").append(capability.getName()).append(":").append(capability.getVersion()).append("' also provided by ");
-        sb.append(capabilityConflict.getRight());
-        return sb.toString();
+        String sb = "Module '" + id + "' has been rejected:\n" +
+            "   Cannot select module with conflict on " +
+            "capability '" + capability.getGroup() + ":" + capability.getName() + ":" + capability.getVersion() + "' also provided by " +
+            capabilityConflict.getRight();
+        return sb;
     }
 
     @Override

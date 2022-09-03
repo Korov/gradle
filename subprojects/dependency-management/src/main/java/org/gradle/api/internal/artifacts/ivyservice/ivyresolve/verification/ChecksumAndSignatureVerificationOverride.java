@@ -113,7 +113,9 @@ public class ChecksumAndSignatureVerificationOverride implements DependencyVerif
                 if (verificationEvents.isEmpty()) {
                     LOGGER.info("verification error events is empty");
                 }
-                LOGGER.info("verification error events add event:{}", event.artifact.getDisplayName());
+                if ("logback-classic-1.2.11.pom (ch.qos.logback:logback-classic:1.2.11)".equals(event.artifact.getDisplayName())) {
+                    LOGGER.info("verification error events add event:{}", event.artifact.getDisplayName());
+                }
                 verificationEvents.add(event);
             }
         }
