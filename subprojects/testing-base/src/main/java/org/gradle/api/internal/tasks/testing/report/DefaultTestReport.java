@@ -132,6 +132,7 @@ public class DefaultTestReport implements TestReporter {
         private final HtmlReportBuilder output;
 
         HtmlReportFileGenerator(String fileUrl, T results, PageRenderer<T> renderer, HtmlReportBuilder output) {
+            LOG.info("file url:{}", fileUrl);
             this.fileUrl = fileUrl;
             this.results = results;
             this.renderer = renderer;
