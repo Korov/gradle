@@ -74,7 +74,8 @@ public class NameMatcher {
         }
 
         Pattern camelCasePattern = getPatternForName(pattern);
-        Pattern normalisedCamelCasePattern = Pattern.compile(camelCasePattern.pattern(), Pattern.CASE_INSENSITIVE);
+//        Pattern normalisedCamelCasePattern = Pattern.compile(camelCasePattern.pattern(), Pattern.CASE_INSENSITIVE);
+        Pattern normalisedCamelCasePattern = getCaseInsensitivePatternForName(pattern);
         String normalisedPattern = pattern.toUpperCase();
         Pattern kebabCasePattern = getKebabCasePatternForName(pattern);
         Pattern kebabCasePrefixPattern = Pattern.compile(kebabCasePattern.pattern() + "[\\p{javaLowerCase}\\p{Digit}-]*");
@@ -152,6 +153,28 @@ public class NameMatcher {
         return Pattern.compile(builder.toString());
     }
 
+    private static Pattern getCaseInsensitivePatternForName(String name) {
+        Pattern boundaryPattern = Pattern.compile("((^|\\p{Punct})\\p{javaLowerCase}+)|(\\p{javaUpperCase}\\p{javaLowerCase}*)");
+        Matcher matcher = boundaryPattern.matcher(name);
+        int pos = 0;
+        StringBuilder builder = new StringBuilder();
+        while (matcher.find()) {
+            String prefix = name.substring(pos, matcher.start());
+            if (!prefix.isEmpty()) {
+                for (int i = 0; i < prefix.length(); i++) {
+                    builder.append(String.format("[%s%s]", Character.toLowerCase(prefix.charAt(i)), Character.toUpperCase(prefix.charAt(i))));
+                }
+            }
+            for (int i = 0; i < matcher.group().length(); i++) {
+                builder.append(String.format("[%s%s]", Character.toLowerCase(matcher.group().charAt(i)), Character.toUpperCase(matcher.group().charAt(i))));
+            }
+            builder.append("[\\p{javaLowerCase}\\p{Digit}]*");
+            pos = matcher.end();
+        }
+        builder.append(Pattern.quote(name.substring(pos)));
+        return Pattern.compile(builder.toString());
+    }
+
     private static Pattern getKebabCasePatternForName(String name) {
         Pattern boundaryPattern = Pattern.compile("((^|\\p{Punct})\\p{javaLowerCase}+)|(\\p{javaUpperCase}\\p{javaLowerCase}*)");
         Matcher matcher = boundaryPattern.matcher(name);
@@ -159,7 +182,7 @@ public class NameMatcher {
         StringBuilder builder = new StringBuilder();
         while (matcher.find()) {
             String prefix = name.substring(pos, matcher.start());
-            if (prefix.length() > 0) {
+            if (!prefix.isEmpty()) {
                 builder.append(Pattern.quote(prefix));
             }
             if (pos > 0) {

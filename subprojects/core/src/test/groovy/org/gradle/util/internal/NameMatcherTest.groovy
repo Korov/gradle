@@ -130,6 +130,8 @@ class NameMatcherTest extends Specification {
         matches("soNa", "someName", "somename")
         matches("SN", "SomeName", "someName")
         matches("na1", "name1", "Name1", "NAME1")
+        matches("someName", "someNameExtra", "someOtherNameExtra")
+        matches("publishReleaseBundle", "publishReleaseBundlePublicationToTempPublishRepository", "publishReleaseObfuscatedBundlePublicationToTempPublishRepository")
     }
 
     def "prefers case insensitive match over camel case match"() {
